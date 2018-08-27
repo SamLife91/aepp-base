@@ -6,6 +6,7 @@ import './lib/initEnv';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import webPush from 'web-push'
 
 Validator.extend('min_value_exclusive', (value, [min]) => Number(value) > min);
 Validator.extend('url_http', (value) => {
@@ -51,3 +52,36 @@ new Vue({
   router,
   render: h => h(App),
 }).$mount('#app');
+
+if ('serviceWorker' in navigator && 'PushManager' in window) {
+  console.log('Service Worker and Push is supported');
+
+  navigator.serviceWorker.register('sw.js')
+    .then((swReg) => {
+      console.log('Service Worker is registered', swReg);
+    })
+    .catch((error) => {
+      console.error('Service Worker Error', error);
+    });
+} else {
+  console.warn('Push messaging is not supported');
+}
+
+window.webPush = webPush;
+
+function urlB64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+window.urlB64ToUint8Array = urlB64ToUint8Array;
