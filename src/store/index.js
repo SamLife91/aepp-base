@@ -7,6 +7,7 @@ import { update, flatMap } from 'lodash-es';
 import { Crypto } from '@aeternity/aepp-sdk/es';
 import networksRegistry from '../lib/networksRegistry';
 import { MAGNITUDE } from '../lib/constants';
+import { genRandomBuffer } from './utils';
 import desktopModule from './modules/desktop';
 import mobileModule from './modules/mobile';
 import persistState from './plugins/persistState';
@@ -26,11 +27,12 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   plugins: [
     persistState(({
-      migrations, rpcUrl, selectedIdentityIdx, addressBook, customNetworks,
+      migrations, rpcUrl, selectedIdentityIdx, addressBook, customNetworks, peerId,
       apps, cachedAppManifests,
       mobile, desktop,
     }) => ({
       migrations,
+      peerId,
       ...process.env.IS_MOBILE_DEVICE ? {
         rpcUrl,
         selectedIdentityIdx,
@@ -48,7 +50,6 @@ const store = new Vuex.Store({
         },
       } : {
         desktop: {
-          peerId: desktop.peerId,
           ledgerAccountNumber: desktop.ledgerAccountNumber,
         },
       },
@@ -78,6 +79,7 @@ const store = new Vuex.Store({
     customNetworks: [],
     apps: [],
     cachedAppManifests: {},
+    peerId: Buffer.from(genRandomBuffer(15)).toString('base64'),
   },
 
   getters: {
