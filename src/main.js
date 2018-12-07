@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import VeeValidate, { Validator } from 'vee-validate';
 import { focus } from 'vue-focus';
+import webPush from 'web-push';
 import './lib/initEnv';
 import App from './App.vue';
 import router from './router';
@@ -51,3 +52,22 @@ new Vue({
   router,
   render: h => h(App),
 }).$mount('#app');
+
+function urlB64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+// window.webPush = webPush;
+// window.Buffer = Buffer;
+// window.urlB64ToUint8Array = urlB64ToUint8Array;

@@ -2,6 +2,7 @@
 
 import Vue from 'vue';
 import Vuex from 'vuex';
+import webPush from 'web-push';
 import { appsRegistry } from '../lib/appsRegistry';
 import networksRegistry from '../lib/networksRegistry';
 import desktopModule from './modules/desktop';
@@ -21,13 +22,14 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   plugins: [
     persistState(({
-      apps, rpcUrl, selectedIdentityIdx, addressBook, mobile, desktop,
+      apps, rpcUrl, selectedIdentityIdx, addressBook, vapidKeys, mobile, desktop,
     }) => ({
       ...process.env.IS_MOBILE_DEVICE ? {
         apps,
         rpcUrl,
         selectedIdentityIdx,
         addressBook,
+        vapidKeys,
         mobile: {
           keystore: mobile.keystore,
           accountCount: mobile.accountCount,
@@ -67,6 +69,8 @@ const store = new Vuex.Store({
     notification: null,
     apps: Object.keys(appsRegistry),
     addressBook: [],
+    serviceWorkerRegistration: null,
+    vapidKeys: webPush.generateVAPIDKeys(),
   },
 
   getters: {
@@ -80,6 +84,13 @@ const store = new Vuex.Store({
       identities[selectedIdentityIdx],
     totalBalance: (state, { identities }) =>
       identities.reduce((sum, { balance }) => sum + balance, 0),
+    async pushNotificationSubscription({ serviceWorkerRegistration, vapidKeys }) {
+      return await serviceWorkerRegistration.pushManager.getSubscription() ||
+        serviceWorkerRegistration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: Buffer.from(vapidKeys.publicKey, 'base64'),
+        });
+    },
   },
 
   mutations: {
@@ -122,6 +133,9 @@ const store = new Vuex.Store({
     },
     addAddressBookItem(state, item) {
       state.addressBook.push(item);
+    },
+    setServiceWorkerRegistration(state, serviceWorkerRegistration) {
+      state.serviceWorkerRegistration = serviceWorkerRegistration;
     },
   },
 
