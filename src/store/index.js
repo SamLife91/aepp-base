@@ -27,17 +27,18 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   plugins: [
     persistState(({
-      migrations, rpcUrl, selectedIdentityIdx, addressBook, customNetworks, peerId,
+      migrations, rpcUrl, selectedIdentityIdx, addressBook, customNetworks, peerId, addresses,
       apps, cachedAppManifests,
       mobile, desktop,
     }) => ({
       migrations,
       peerId,
+      rpcUrl,
+      selectedIdentityIdx,
+      addressBook,
+      customNetworks,
+      addresses,
       ...process.env.IS_MOBILE_DEVICE ? {
-        rpcUrl,
-        selectedIdentityIdx,
-        addressBook,
-        customNetworks,
         apps,
         cachedAppManifests,
         mobile: {
