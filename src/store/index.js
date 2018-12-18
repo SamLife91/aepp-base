@@ -76,6 +76,7 @@ const store = new Vuex.Store({
     sdk: null,
     alert: null,
     notification: null,
+    serviceWorkerRegistration: null,
     addressBook: [],
     customNetworks: [],
     apps: [],
@@ -206,6 +207,9 @@ const store = new Vuex.Store({
     },
     setCachedAppManifest({ cachedAppManifests }, { host, manifest }) {
       Vue.set(cachedAppManifests, host, manifest);
+    },
+    setServiceWorkerRegistration(state, serviceWorkerRegistration) {
+      state.serviceWorkerRegistration = serviceWorkerRegistration;
     },
   },
 
