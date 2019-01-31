@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { generateMnemonic } from '@aeternity/bip39';
 import { mapState } from 'vuex';
 import dizzySymbolEmojiPath from 'emoji-datasource-apple/img/apple/64/1f4ab.png';
 import MobilePage from '../../components/mobile/Page.vue';
@@ -58,17 +59,13 @@ export default {
   data() {
     return {
       dizzySymbolEmoji: dizzySymbolEmojiPath,
-      seed: '',
+      seed: generateMnemonic(),
       error: false,
     };
   },
   computed: mapState(['keystore']),
-  methods: {
-    async setSeed() {
-      if (!await this.$validator.validateAll()) return;
-
-      this.$router.push({ name: 'set-password', params: { seed: this.seed } });
-    },
+  mounted() {
+    this.$router.push({ name: 'set-password', params: { seed: this.seed } });
   },
 };
 </script>

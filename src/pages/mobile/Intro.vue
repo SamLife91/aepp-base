@@ -12,24 +12,8 @@
     <template slot="footer">
       <AeButton
         :to="{ name: keystore ? 'login' : 'recover' }"
-        fill="secondary"
-      >
-        {{ keystore ? 'Login' : 'Recover' }}
-      </AeButton>
-      <AeButton
-        :to="{ name: 'new-account' }"
-        fill="light"
-        plain
-      >
-        Create New Account
-      </AeButton>
-      <hr>
-      <AeButton
-        :to="{ name: 'onboarding' }"
-        fill="light"
-        plain
-      >
-        See how it works
+        fill="secondary">
+        {{ keystore ? 'Login' : 'Get Demo Account' }}
       </AeButton>
     </template>
   </MobilePage>

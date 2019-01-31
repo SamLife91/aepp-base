@@ -33,7 +33,7 @@ module.exports = {
     return [definitions];
   }),
   pwa: {
-    name: 'Base æpp',
+    name: 'Drone Graffiti Demo',
     manifestPath: 'default.webmanifest',
     iconPaths: {
       favicon32: 'favicons/favicon-32x32.png',

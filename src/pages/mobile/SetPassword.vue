@@ -1,22 +1,12 @@
 <template>
-  <MobilePage :title="recover ? 'Recover Account' : 'New Account'">
-    <Guide>
-      <AeFraction
-        slot="icon"
-        :numerator="recover ? 2 : 4"
-        :denominator="recover ? 2 : 4"
-      />
-
-      <template v-if="recover">
-        You recovered your
-                      <br>account <em>successfully</em>!
-                      <br>Now <mark>choose a new <img :src="keyEmoji"></mark>
-                      <br><mark>password</mark> and confirm.
-      </template>
-      <template v-else>
-        Great, that's done. Now
-        <br>create <mark>your <img :src="keyEmoji"> password</mark>
-      </template>
+  <MobilePage title="New Account">
+    <Guide
+      fill="primary"
+      icon="½">
+      Generated Demo Account!
+                    <br>
+                    <br><mark>Choose a<img :src="keyEmoji">password</mark>
+                    <br>and confirm.
     </Guide>
 
     <form
