@@ -38,8 +38,9 @@
           </ListItem>
 
           <ListItem
+            :to="{ name: 'vault-new' }"
             title="Create a vault for AirGap"
-            @click="toggleAccountSwitcher"
+            @click.native="toggleAccountSwitcher"
           >
             <AeIcon
               slot="icon"

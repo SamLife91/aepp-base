@@ -1,13 +1,19 @@
 <template>
   <MobilePage
-    header-fill="primary"
+    :header-fill="secure ? 'alternative' : 'primary'"
     right-button-icon-name="close"
     @right-button-click="$router.back()"
   >
     <template slot="header">
       <Guide fill="neutral">
-        <em>Create new subaccount</em>
-        <br>and name it
+        <template v-if="secure">
+          <em>Create new Vault</em>
+          <br>choose a name
+        </template>
+        <template v-else>
+          <em>Create new subaccount</em>
+          <br>choose a name
+        </template>
       </Guide>
 
       <form
@@ -53,9 +59,18 @@ export default {
   data: () => ({
     newAccountName: '',
   }),
+  computed: {
+    secure() {
+      return this.$route.meta.secure;
+    },
+  },
   methods: {
     async handleAddAddress() {
       if (!await this.$validator.validateAll()) return;
+      if (this.secure) {
+        this.$router.push({ name: 'airgap-setup-method' });
+        return;
+      }
       this.$store.commit('createIdentity', this.newAccountName);
       this.$store.commit('selectIdentity', this.$store.state.mobile.accountCount - 1);
       this.$router.back();

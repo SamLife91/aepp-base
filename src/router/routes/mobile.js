@@ -15,6 +15,11 @@ import NewAccountCreate from '../../pages/mobile/NewAccountCreate.vue';
 import NewAccountConfirm from '../../pages/mobile/NewAccountConfirm.vue';
 import SetPassword from '../../pages/mobile/SetPassword.vue';
 import AccountsNew from '../../pages/mobile/AccountsNew.vue';
+import AirgapSetupMethod from '../../pages/mobile/AirgapSetupMethod.vue';
+import AirgapSetupAnotherDevice from '../../pages/mobile/AirgapSetupAnotherDevice.vue';
+import AirgapSetupAnotherDeviceLink from '../../pages/mobile/AirgapSetupAnotherDeviceLink.vue';
+import AirgapSetupThisDevice from '../../pages/mobile/AirgapSetupThisDevice.vue';
+import AirgapSetupThisDeviceSync from '../../pages/mobile/AirgapSetupThisDeviceSync.vue';
 import Transfer from '../../pages/mobile/Transfer.vue';
 import Receive from '../../pages/mobile/Receive.vue';
 import Send from '../../pages/mobile/Send.vue';
@@ -125,6 +130,55 @@ export default [{
   name: 'accounts-new',
   path: '/accounts-new',
   component: AccountsNew,
+  beforeEnter: checkLoggedIn(true),
+  meta: {
+    displayFooter: true,
+  },
+}, {
+  name: 'vault-new',
+  path: '/vault-new',
+  component: AccountsNew,
+  beforeEnter: checkLoggedIn(true),
+  meta: {
+    displayFooter: true,
+    secure: true,
+  },
+}, {
+  name: 'airgap-setup-method',
+  path: '/airgap-setup-method',
+  component: AirgapSetupMethod,
+  beforeEnter: checkLoggedIn(true),
+  meta: {
+    displayFooter: true,
+  },
+}, {
+  name: 'airgap-setup-another-device',
+  path: '/airgap-setup/another-device',
+  component: AirgapSetupAnotherDevice,
+  beforeEnter: checkLoggedIn(true),
+  meta: {
+    displayFooter: true,
+  },
+}, {
+  name: 'airgap-setup-another-device-link',
+  path: '/airgap-setup/another-device/link',
+  component: AirgapSetupAnotherDeviceLink,
+  beforeEnter: checkLoggedIn(true),
+  meta: {
+    displayFooter: true,
+  },
+}, {
+  name: 'airgap-setup-this-device',
+  path: '/airgap-setup/this-device',
+  component: AirgapSetupThisDevice,
+  beforeEnter: checkLoggedIn(true),
+  meta: {
+    displayFooter: true,
+  },
+}, {
+  name: 'airgap-setup-this-device-sync',
+  path: '/airgap-setup/this-device/sync',
+  component: AirgapSetupThisDeviceSync,
   beforeEnter: checkLoggedIn(true),
   meta: {
     displayFooter: true,
